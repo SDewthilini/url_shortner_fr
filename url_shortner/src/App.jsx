@@ -1,12 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from '@clerk/clerk-react'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {getToken} = useAuth()
+
+  
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken()
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    }
+
+    fetchToken()
+  }, [getToken])
 
   return (
     <>
