@@ -9,7 +9,6 @@ import Card from "./components/urlshortnercard";
 function HomePage() {
     return (
         <div>
-            <Navbar/>
             <Card/>
             
         </div>

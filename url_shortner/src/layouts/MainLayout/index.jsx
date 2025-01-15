@@ -1,7 +1,12 @@
 import React from 'react'
+import Navbar from '../../components/navbar'
+import { Outlet } from 'react-router-dom'
 
-export default function index() {
+export default function MainLayout() {
   return (
-    <div>index</div>
+    <div>
+        <Navbar/>
+        <Outlet/>
+    </div>
   )
 }
