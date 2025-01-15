@@ -59,15 +59,9 @@ function Navbar() {
 
                     {/* Action Buttons */}
                     <div className="d-flex align-items-center">
-                        <Link to="/login" className="btn btn-link text-white text-decoration-none me-3">
-                            Log in
-                        </Link>
+                       
+                       { (isSignedIn) ? <UserButton/> : <SignInButton className="btn btn-light text-dark fw-bold"/>}
                         
-                        <Link to="/signup" className="btn btn-light text-dark fw-bold">
-                            Sign up Free
-                        </Link>
-                        <UserButton/>
-                        <SignInButton/>
                     </div>
                 </div>
             </div>
