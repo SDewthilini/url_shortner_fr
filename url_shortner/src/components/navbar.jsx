@@ -1,15 +1,16 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
                 {/* Logo */}
-                <a className="navbar-brand text-orange fw-bold" href="#">
+                <Link className="navbar-brand text-orange fw-bold" to="/">
                     bitly
-                </a>
+                </Link>
 
-                {/* Navbar Toggle (for mobile view) */}
+                {/* Navbar Toggle */}
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -25,69 +26,43 @@ function Navbar() {
                 {/* Navbar Links */}
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link dropdown-toggle"
-                                href="#"
-                                id="platformDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link"
+                                to="/"
                             >
                                 Home
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby="platformDropdown">
-                                <li><a className="dropdown-item" href="#">Option 1</a></li>
-                                <li><a className="dropdown-item" href="#">Option 2</a></li>
-                            </ul>
+                            </NavLink>
                         </li>
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link dropdown-toggle"
-                                href="#"
-                                id="solutionsDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link"
+                                to="/solutions"
                             >
                                 Solutions
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby="solutionsDropdown">
-                                <li><a className="dropdown-item" href="#">Option 1</a></li>
-                                <li><a className="dropdown-item" href="#">Option 2</a></li>
-                            </ul>
+                            </NavLink>
                         </li>
-                        
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link dropdown-toggle"
-                                to='/about'
-                                //href="#"
-                                id="resourcesDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
+                        <li className="nav-item">
+                            <NavLink
+                                className="nav-link"
+                                to="/about"
                             >
                                 About Us
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
-                                <li><a className="dropdown-item" href="#">Option 1</a></li>
-                                <li><a className="dropdown-item" href="#">Option 2</a></li>
-                            </ul>
+                            </NavLink>
                         </li>
                     </ul>
 
                     {/* Action Buttons */}
                     <div className="d-flex align-items-center">
-                        <a href="#" className="btn btn-link text-white text-decoration-none me-3">
+                        <Link to="/login" className="btn btn-link text-white text-decoration-none me-3">
                             Log in
-                        </a>
-                        <button className="btn btn-outline-light me-2">
+                        </Link>
+                        <Link to="/quote" className="btn btn-outline-light me-2">
                             Get a Quote
-                        </button>
-                        <button className="btn btn-light text-dark fw-bold">
+                        </Link>
+                        <Link to="/signup" className="btn btn-light text-dark fw-bold">
                             Sign up Free
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
