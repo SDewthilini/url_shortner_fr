@@ -1,37 +1,41 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from '@clerk/clerk-react'
+
+
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import HomePage from './pages/home/home';
+import ThemeRoutes from './routes';
+
 
 
 function App() {
-  const {getToken} = useAuth()
+  // const {getToken} = useAuth()
 
   
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken()
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    }
+  // useEffect(() => {
+  //   const fetchToken = async () => {
+  //     const token = await getToken()
+  //     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  //   }
 
-    fetchToken()
-  }, [getToken])
+  //   fetchToken()
+  // }, [getToken])
 
   return (
-    <>
-      <header>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
+    // <>
+    //   <header>
+    //   <SignedOut>
+    //     <SignInButton />
+    //   </SignedOut>
 
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
-    </>
+    //   <SignedIn>
+    //     <UserButton />
+    //   </SignedIn>
+    // </header>
+    // </>
+    <ThemeRoutes/>
+    
   )
 }
 
-export default App
+export default App;
