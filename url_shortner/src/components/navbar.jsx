@@ -1,7 +1,12 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { SignInButton, useAuth, UserButton } from '@clerk/clerk-react'
+
 
 function Navbar() {
+
+    const {isSignedIn} = useAuth()
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -57,12 +62,12 @@ function Navbar() {
                         <Link to="/login" className="btn btn-link text-white text-decoration-none me-3">
                             Log in
                         </Link>
-                        <Link to="/quote" className="btn btn-outline-light me-2">
-                            Get a Quote
-                        </Link>
+                        
                         <Link to="/signup" className="btn btn-light text-dark fw-bold">
                             Sign up Free
                         </Link>
+                        <UserButton/>
+                        <SignInButton/>
                     </div>
                 </div>
             </div>

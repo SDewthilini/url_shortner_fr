@@ -1,6 +1,8 @@
 import { Children, lazy } from "react";
 import Loadable from "../components/Loadable";
 import MainLayout from "../layouts/MainLayout";
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react'
+
 
 const HomePage = Loadable(lazy(() => import('../pages/home/home')));
 const SolutionPage = Loadable(lazy(() => import('../pages/solutions/solutions')));
@@ -15,15 +17,15 @@ const MainRoutes = {
             children: [
                 {
                     path: '/',
-                    element: <HomePage />
+                    element:(<SignedOut><HomePage /></SignedOut>) 
                 },
                 {
                     path: 'solutions',
-                    element: <SolutionPage />
+                    element:(<SignedIn><SolutionPage /></SignedIn>)
                 },
                 {
                     path: 'about',
-                    element: <AboutPage />
+                    element: (<SignedOut><AboutPage /></SignedOut>)
                 }
             ]
         }
