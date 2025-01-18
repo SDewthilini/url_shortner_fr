@@ -9,6 +9,7 @@ const HomePage = Loadable(lazy(() => import('../pages/home/home')));
 const SolutionPage = Loadable(lazy(() => import('../pages/solutions/solutions')));
 const AboutPage = Loadable(lazy(() => import('../pages/about/about')));
 
+
 const MainRoutes = {
     path: '/',
     children: [

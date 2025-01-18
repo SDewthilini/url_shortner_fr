@@ -10,6 +10,8 @@ function SolutionPage() {
         <div>
             <h1>Solution</h1>
             <UrlCard/>
+            <UrlCard/>
+            <UrlCard/>
             
             
         </div>
