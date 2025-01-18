@@ -40,12 +40,12 @@ function Navbar() {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink
+                            {(isSignedIn)? <NavLink
                                 className="nav-link"
                                 to="/solutions"
                             >
                                 Solutions
-                            </NavLink>
+                            </NavLink> : <></>}
                         </li>
                         <li className="nav-item">
                             <NavLink

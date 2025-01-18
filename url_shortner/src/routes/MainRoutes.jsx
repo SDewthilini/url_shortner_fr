@@ -17,7 +17,7 @@ const MainRoutes = {
             children: [
                 {
                     path: '/',
-                    element:(<SignedOut><HomePage /></SignedOut>) 
+                    element:(<HomePage />) 
                 },
                 {
                     path: 'solutions',
@@ -25,7 +25,7 @@ const MainRoutes = {
                 },
                 {
                     path: 'about',
-                    element: (<SignedOut><AboutPage /></SignedOut>)
+                    element: (<AboutPage />)
                 }
             ]
         }
