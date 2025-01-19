@@ -23,7 +23,7 @@ export default function ClicksLineChart() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="clicks" stroke="#8884d8" />
+          <Line type="linear" dataKey="clicks" stroke="#8884d8" />
         </LineChart>
       </ResponsiveContainer>
     </Paper>
