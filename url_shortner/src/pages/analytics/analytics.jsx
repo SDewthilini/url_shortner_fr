@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
 import TotalClicksChart from "./components/totalClicksChart";
 import TotalClicksCard from "./components/totalClicksCard";
+import UsedDevicesChart from "./components/UsedDevicesChart";
 
 const ClickStats = ({ shortUrl }) => {
     const [dailyClicks, setDailyClicks] = useState(0);
@@ -29,11 +30,29 @@ const ClickStats = ({ shortUrl }) => {
 
     return (
         <Box sx={{ p: 2 }}>
+
+            <h1
+                style={{
+                    textAlign: 'center',
+                    background: 'linear-gradient(90deg, #ff7f50, #6a5acd, #32cd32)',
+                    WebkitBackgroundClip: 'text',
+                    color: 'transparent',
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    animation: 'fadeIn 2s ease-in-out',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = 'scale(1.1)')}
+                onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+            >
+                Totals Clicks for latest 7 days...
+            </h1>
+
+
             <TotalClicksChart />
 
-            <Box sx={{ mt: 4 }} />
-
-
+            <Box sx={{ mt: 9 }} />
 
             <Grid container spacing={2}>
                 {/* Daily Clicks Card */}
@@ -67,6 +86,10 @@ const ClickStats = ({ shortUrl }) => {
                 />
 
             </Grid>
+
+            <Box sx={{ mt: 9 }} />
+
+            <UsedDevicesChart/>
 
 
         </Box>
