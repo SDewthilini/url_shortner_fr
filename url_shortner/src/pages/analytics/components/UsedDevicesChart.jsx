@@ -50,7 +50,7 @@ export default function UsedDevicesChart({ shortUrl }) {
               dataKey="value" // The value key for the number of clicks
               nameKey="name" // The name key for the device type (e.g., mobile, desktop)
               cx="50%"
-              cy="40%" // Adjust the vertical position of the chart to make space for the legend
+              cy="45%" // Adjust the vertical position of the chart to make space for the legend
               innerRadius={50}
               outerRadius={100}
               paddingAngle={5}

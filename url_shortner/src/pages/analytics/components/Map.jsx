@@ -9,7 +9,8 @@ export default function Map() {
   return (
     <Box
       sx={{
-        width: "50%",
+       
+        width: "100%",
         height: "500px",
         border: "1px solid #ddd",
         borderRadius: "8px",
@@ -19,6 +20,7 @@ export default function Map() {
         flexDirection: "column",
         alignItems: "center",
         padding: 2,
+        backgroundColor: "#f9f9f9",
       }}
     >
       {/* Title */}
