@@ -1,83 +1,97 @@
-import React from 'react';
-import { Container, Typography, Box, Grid, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Box, Typography, Grid, Paper } from "@mui/material";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import LinkIcon from "@mui/icons-material/Link";
+import SpeedIcon from "@mui/icons-material/Speed";
+import { useSpring, animated } from "@react-spring/web"; // Importing react-spring
 
-const AboutPage = () => {
+export default function AboutUs() {
+  const features = [
+    {
+      icon: <RocketLaunchIcon sx={{ fontSize: 50, color: "#1976d2" }} />,
+      title: "Fast URL Shortening",
+      description: "Generate short and efficient links in seconds to share anywhere.",
+    },
+    {
+      icon: <TrendingUpIcon sx={{ fontSize: 50, color: "#2e7d32" }} />,
+      title: "Analytics Tracking",
+      description: "Track clicks, usage patterns, and audience engagement seamlessly.",
+    },
+    {
+      icon: <LinkIcon sx={{ fontSize: 50, color: "#d32f2f" }} />,
+      title: "Customizable Links",
+      description: "Create memorable, branded links for better reach and recognition.",
+    },
+    {
+      icon: <SpeedIcon sx={{ fontSize: 50, color: "#f57c00" }} />,
+      title: "High Performance",
+      description: "Enjoy a robust, lightning-fast platform that scales effortlessly.",
+    },
+  ];
+
+  // Animation for the About Us section
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    config: { duration: 1000 },
+  });
+
   return (
-    <Container>
-      <Box py={4}>
-        <Typography variant="h3" gutterBottom>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 4,
+        bgcolor: "#f5f5f5",
+      }}
+    >
+      {/* Animated Page Header */}
+      <animated.div style={fadeIn}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: "bold", mb: 3, color: "#333", textAlign: "center" }}
+        >
           About Us
         </Typography>
+      </animated.div>
 
-        <Typography variant="h5" gutterBottom>
-          Welcome to [Your URL Shortener Web App Name]
+      {/* Animated Description */}
+      <animated.div style={fadeIn}>
+        <Typography
+          variant="body1"
+          sx={{ mb: 4, maxWidth: "600px", textAlign: "center", color: "#555" }}
+        >
+          We aim to provide you with the best URL shortening experience, enhanced with real-time
+          analytics, link customization, and performance-driven solutions.
         </Typography>
-        <Typography variant="body1" paragraph>
-          At [Your URL Shortener Web App Name], we provide an easy and fast way to shorten and manage your long URLs. Whether you're a business, marketer, or just an everyday user, we help you reduce the complexity of long URLs into simple, shareable, and trackable links. Our service is completely free, and you can create as many short links as you need!
-        </Typography>
+      </animated.div>
 
-        <Typography variant="h6" gutterBottom>
-          Why Use Our URL Shortener?
-        </Typography>
-        <Typography variant="body1" paragraph>
-          In today's digital age, managing URLs is essential for efficient content sharing and tracking. Here are a few reasons why you should use our URL shortener:
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1">- Shorten long URLs into easy-to-share links</Typography>
-            <Typography variant="body1">- Track your links' performance (views, clicks, etc.)</Typography>
+      {/* Features Section */}
+      <Grid container spacing={4} justifyContent="center">
+        {features.map((feature, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Paper
+              elevation={3}
+              sx={{
+                padding: 3,
+                textAlign: "center",
+                borderRadius: 2,
+                bgcolor: "#fff",
+              }}
+            >
+              {feature.icon}
+              <Typography variant="h6" sx={{ mt: 2, mb: 1, color: "#333" }}>
+                {feature.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#777" }}>
+                {feature.description}
+              </Typography>
+            </Paper>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="body1">- Free and unlimited URL shortening</Typography>
-            <Typography variant="body1">- Simple, user-friendly interface</Typography>
-          </Grid>
-        </Grid>
-
-        <Typography variant="h6" gutterBottom>
-          Our Technology Stack
-        </Typography>
-        <Typography variant="body1" paragraph>
-          We have built our URL shortener web app using the powerful MERN stack (MongoDB, Express.js, React, Node.js), ensuring fast, scalable, and secure services for our users. Here's how we utilize these technologies:
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={3}>
-            <Typography variant="h6">MongoDB</Typography>
-            <Typography variant="body2">A NoSQL database to store shortened URLs and track analytics securely and efficiently.</Typography>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Typography variant="h6">Express.js</Typography>
-            <Typography variant="body2">A backend framework used to handle URL shortening logic and API calls seamlessly.</Typography>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Typography variant="h6">React</Typography>
-            <Typography variant="body2">A JavaScript library to build the interactive front-end interface, providing a smooth user experience.</Typography>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Typography variant="h6">Node.js</Typography>
-            <Typography variant="body2">A server-side runtime environment to handle high-speed requests and serve the application with efficiency.</Typography>
-          </Grid>
-        </Grid>
-
-        <Typography variant="h6" gutterBottom>
-          Our Vision
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Our vision is to make URL shortening easy, efficient, and accessible for everyone. We want to empower users and businesses with a simple solution to manage their links effectively, enabling better user engagement, easier sharing, and more insightful analytics.
-        </Typography>
-
-        <Typography variant="h6" gutterBottom>
-          Get Started Now
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Ready to start shortening your URLs? Join our platform today and simplify your online experience!
-        </Typography>
-        <Button variant="contained" color="primary" component={Link} to="/shorten-url">
-          Shorten Your URL
-        </Button>
-      </Box>
-    </Container>
+        ))}
+      </Grid>
+    </Box>
   );
-};
-
-export default AboutPage;
+}
