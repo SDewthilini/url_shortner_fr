@@ -3,6 +3,8 @@ import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
 import TotalClicksChart from "./components/totalClicksChart";
 import TotalClicksCard from "./components/totalClicksCard";
 import UsedDevicesChart from "./components/UsedDevicesChart";
+import Map from "./components/map";
+
 
 const ClickStats = ({ shortUrl }) => {
     const [dailyClicks, setDailyClicks] = useState(0);
@@ -90,6 +92,9 @@ const ClickStats = ({ shortUrl }) => {
             <Box sx={{ mt: 9 }} />
 
             <UsedDevicesChart/>
+            <Map/>
+
+           
 
 
         </Box>
