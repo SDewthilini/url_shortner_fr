@@ -3,8 +3,9 @@ import Loadable from "../components/Loadable";
 import MainLayout from "../layouts/MainLayout";
 //import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react'
 import ClickStats from "../pages/analytics/analytics";
-import SignIn from "../pages/signup/signupPage";
+
 import Signup from "../pages/signup/signupPage";
+import SignIn from "../pages/signin/signinPage";
 
 
 const HomePage = Loadable(lazy(() => import('../pages/home/home')));
@@ -40,6 +41,10 @@ const MainRoutes = {
                 {
                     path: 'signup',
                     element: (<Signup/>)
+                },
+                {
+                    path: 'signin',
+                    element: (<SignIn/>)
                 }
                 
 

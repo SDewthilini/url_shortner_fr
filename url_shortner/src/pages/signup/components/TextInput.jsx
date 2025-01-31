@@ -6,3 +6,4 @@ const TextInput = ({ label, name, value, onChange, type = "text" }) => {
 };
 
 export default TextInput;
+
