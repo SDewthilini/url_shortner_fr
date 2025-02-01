@@ -5,13 +5,15 @@ import { motion } from "framer-motion";
 
 import UrlCard from "./components/urlcard";
 import UrlShortener from "./components/urlshortner";
+import { useAuth } from "../../providers/AuthProvider";
 
 
 const HomePage = () => {
   const [urlList, setUrlList] = useState([]);
 
 
-
+  const {user, logout} = useAuth();
+  console.log(user);
 
 
 
