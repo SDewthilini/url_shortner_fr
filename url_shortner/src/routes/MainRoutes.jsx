@@ -1,7 +1,6 @@
 import { Children, lazy } from "react";
 import Loadable from "../components/Loadable";
 import MainLayout from "../layouts/MainLayout";
-//import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-react'
 import ClickStats from "../pages/analytics/analytics";
 
 import Signup from "../pages/signup/signupPage";
