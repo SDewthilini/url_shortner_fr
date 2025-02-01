@@ -19,7 +19,7 @@ const UrlCard = ({ originalUrl, shortUrl, onDelete, onCopy, onStats }) => {
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
             <Typography variant="body2" color="textSecondary">
-              Original URL:
+              Original URL: 
             </Typography>
             <Typography variant="body1" noWrap>
               {originalUrl}

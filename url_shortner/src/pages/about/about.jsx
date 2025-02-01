@@ -52,6 +52,7 @@ export default function AboutUs() {
         <Typography
           variant="h4"
           sx={{ fontWeight: "bold", mb: 3, color: "#333", textAlign: "center" }}
+          style={{marginTop:'80px'}}
         >
           About Us
         </Typography>

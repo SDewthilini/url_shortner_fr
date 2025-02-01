@@ -11,7 +11,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: "50px" }}>
+    <Container maxWidth="sm" style={{ marginTop: "100px" }}>
       <Slide direction="up" in={true} mountOnEnter unmountOnExit>
         <Paper elevation={5} style={{ padding: "30px", textAlign: "center", backgroundColor: "#f5f5f5", borderRadius: "15px" }}>
           <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", color: "#333", letterSpacing: "1px", textTransform: "uppercase" }}>

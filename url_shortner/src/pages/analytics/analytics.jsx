@@ -45,6 +45,7 @@ const ClickStats = ({ shortUrl }) => {
                     animation: 'fadeIn 2s ease-in-out',
                     transition: 'transform 0.3s ease',
                     cursor: 'pointer',
+                    marginTop:'90px',
                 }}
                 onMouseEnter={(e) => (e.target.style.transform = 'scale(1.1)')}
                 onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}

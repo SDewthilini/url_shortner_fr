@@ -7,8 +7,9 @@ import UrlCard from "../home/components/urlcard";
 
 function SolutionPage() {
     return (
-        <div>
+        <div style={{marginTop:"60px"}}>
             <h1>Solution</h1>
+            <UrlCard/>
             <UrlCard/>
             <UrlCard/>
             <UrlCard/>

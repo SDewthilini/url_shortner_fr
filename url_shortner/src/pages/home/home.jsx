@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { Box, Typography, Container } from "@mui/material";
 import { motion } from "framer-motion";
-import UrlShortener from "./components/urlshortner";
+
 import UrlCard from "./components/urlcard";
+import UrlShortener from "./components/urlshortner";
 
 
 const HomePage = () => {
@@ -12,7 +13,7 @@ const HomePage = () => {
 
 
 
-  
+
 
   const handleShortenUrl = (originalUrl, shortUrl) => {
     // Add new shortened URL to the list, which will trigger the rendering of UrlCard
@@ -38,7 +39,9 @@ const HomePage = () => {
       sx={{
         backgroundColor: "#f5f5f5",
         minHeight: "100vh",
-        py: 8,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         textAlign: "center",
       }}
     >
@@ -66,7 +69,7 @@ const HomePage = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <UrlShortener  />
+          <UrlShortener />
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
@@ -92,6 +95,7 @@ const HomePage = () => {
         </Box>
       </Container>
     </Box>
+
   );
 };
 
