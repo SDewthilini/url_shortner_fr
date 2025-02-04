@@ -1,95 +1,97 @@
-import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
-import UrlCard from "./urlcard";
+import React, { useState, useEffect } from 'react';
+import UrlCard from './urlcard';
+import axiosServices from '../../../utills/axios';
 
-const UrlShortener = ({ onShorten }) => {
-  const [url, setUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+const UrlShortener = () => {
+  const [url, setUrl] = useState('');
+  const [shortUrl, setShortUrl] = useState(null);
+  const [savedUrls, setSavedUrls] = useState([]);
 
-  
-  const [ur, setUr] = useState(null);
+  useEffect(() => {
+    // Load saved URLs from localStorage on component mount
+    const storedUrls = JSON.parse(localStorage.getItem('urls')) || [];
+    setSavedUrls(storedUrls);
+  }, []);
 
-  function handleClick(){
-    setUr(<UrlCard/>);
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
- 
+    try {
+      const res = await axiosServices.post("/api/short", {
+        link: url,
+        path: ''
+      });
 
-  const handleShorten = async () => {
-    // if (!url.trim()) {
-    //   alert("Please enter a valid URL.");
-    //   return;
-    // }
-    // try {
-    //   // Call the backend API to shorten the URL
-    //   const response = await fetch("http://localhost:5000/api/shorten", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ originalUrl: url }),
-    //   });
+      console.log(res.data);
 
-    //   const data = await response.json();
+      const data = res.data;
+      setShortUrl(data.url);
 
-    //   if (response.ok) {
-    //     setShortUrl(data.shortUrl);
-    //     onShorten(data.shortUrl); // Optional callback for parent
-    //   } else {
-    //     alert(data.message || "Error shortening the URL.");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    //   alert("Failed to shorten URL.");
-    // }
+      // Save to localStorage if it's not already saved
+      const newUrl = { originalUrl: url, shortUrl: data.url };
+      const isUrlExist = savedUrls.some(item => item.shortUrl === data.url);
+
+      if (!isUrlExist) {
+        const updatedUrls = [...savedUrls, newUrl];
+        setSavedUrls(updatedUrls);
+        localStorage.setItem('urls', JSON.stringify(updatedUrls));
+      }
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  };
+
+  const handleCopy = (url) => {
+    navigator.clipboard.writeText(url);
+  };
+
+  const handleDelete = (shortUrl) => {
+    console.log('Deleting:', shortUrl); // Add this line
+    const updatedUrls = savedUrls.filter(item => item.shortUrl !== shortUrl);
+    setSavedUrls(updatedUrls);
+    localStorage.setItem('urls', JSON.stringify(updatedUrls));
+  };
+
+  const handleStats = (url) => {
+    console.log('Stats for:', url);
   };
 
   return (
-    <Box sx={{ textAlign: "center", mt: 4 }}>
-      <TextField
-        label="Paste your URL here"
-        variant="outlined"
-        fullWidth
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        sx={{ mb: 2 }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-        sx={{ mb: 2 }}
-      >
-        Shorten URL
-      </Button>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="url"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="Enter URL to shorten..."
+          required
+        />
+        <button type="submit">Shorten URL</button>
+      </form>
 
-      {shortUrl && (
-        <Box>
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Your Shortened URL:
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              mt: 1,
-            }}
-          >
-            <Typography variant="body1" sx={{ mr: 2 }}>
-              {shortUrl}
-            </Typography>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => navigator.clipboard.writeText(shortUrl)}
-            >
-              Copy
-            </Button>
-          </Box>
-        </Box>
+      {/* Display saved URL cards */}
+      {savedUrls.map((item, index) => (
+        <UrlCard
+          key={index}
+          originalUrl={item.originalUrl}
+          shortUrl={item.shortUrl}
+          onCopy={handleCopy}
+          onDelete={handleDelete}
+          onStats={handleStats}
+        />
+      ))}
+
+      {/* Only render the new short URL card if it's not already in the saved list */}
+      {shortUrl && !savedUrls.some(item => item.shortUrl === shortUrl) && (
+        <UrlCard
+          originalUrl={url}
+          shortUrl={shortUrl}
+          onCopy={handleCopy}
+          onDelete={handleDelete}
+          onStats={handleStats}
+        />
       )}
-    </Box>
+    </div>
   );
 };
 
