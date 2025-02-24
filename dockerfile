@@ -1,25 +1,20 @@
-# Stage 1: Build the React app
-FROM node:20-alpine AS builder
+# Base image for Node.js
+FROM node:20-alpine AS build
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json ./
-RUN npm install --legacy-peer-deps
-
-# Copy the entire project and build it
+# Copy project files
 COPY . .
-RUN npm run build
 
-# Stage 2: Serve the app with Nginx
+# Install dependencies and build
+RUN npm install && npm run build
+
+# Serve the app using Nginx
 FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy the built app from the builder stage to Nginx's default directory
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Expose the port Nginx runs on
+# Expose port 80
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

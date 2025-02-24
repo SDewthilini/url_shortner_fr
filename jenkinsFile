@@ -1,77 +1,62 @@
 pipeline {
     agent any
 
-    // environment {
-    //     NETLIFY_SITE_ID = 'a58e-4405-480d-80a3-309ef622a'
-    //     NETLIFY_AUTH_TOKEN = credentials('netlify-token')
-    // }
+    environment {
+        IMAGE_NAME = 'your_dockerhub_username/vite-react-app'
+        IMAGE_TAG = 'latest'
+    }
 
     stages {
-
-           stage('Build') {
-
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    reuseNode true
-                }
-            }
+        stage('Checkout Code') {
             steps {
-                sh '''
-                   ls -la
-                   node --version
-                   npm --version
-                   npm ci
-                   npm run build
-                   ls -la     
-
-                '''
+                git branch: 'main', url: 'https://github.com/yourusername/your-vite-react-app.git'
             }
         }
 
-        //   stage('Test') {
+        stage('Install Dependencies & Build') {
+            steps {
+                script {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
 
-        //     agent {
-        //         docker {
-        //             image 'node:22-alpine'
-        //             reuseNode true
-        //         }
-        //     }
+        stage('Dockerize App') {
+            steps {
+                script {
+                    sh """
+                    echo "Building Docker Image..."
+                    docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                    """
+                }
+            }
+        }
 
-        //     steps {
-        //         sh '''
-        //             node --version
-        //             npm --version
-        //             test -f dist/index.html
-        //             npm test
-        //         '''
-        //     }
-        // }
-
-        //   stage('Deploy') {
-        //     agent {
-        //         docker {
-        //             image 'node:22-alpine'
-        //             reuseNode true
-        //         }
-        //     }
-            
-        //     steps {
-        //         sh '''
-        //             npm install netlify-cli 
-        //             node_modules/.bin/netlify --version  
-        //             echo "Deploying to Production. Site ID: $NETLIFY_SITE_ID"
-        //             node_modules/.bin/netlify status 
-        //             node_modules/.bin/netlify deploy --dir=dist --prod
-        //         '''
-        //     }
-        // }
-
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker push $IMAGE_NAME:$IMAGE_TAG
+                        docker logout
+                        """
+                    }
+                }
+            }
+        }
     }
 
-    //  post {
-    //         always {
-    //             junit 'test-results/junit.xml'
-    //         }
-    //  }
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo '🎉 Build and Push Successful!'
+        }
+        failure {
+            echo '❌ Build or Push Failed!'
+        }
+    }
 }
