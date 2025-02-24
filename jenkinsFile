@@ -2,14 +2,15 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'your_dockerhub_username/vite-react-app'
-        IMAGE_TAG = 'latest'
+        DOCKER_IMAGE = "yourdockerhubusername/url_shortner_fr"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourusername/your-vite-react-app.git'
+                git branch: 'main',
+                    url: 'https://github.com/SDewthilini/url_shortner_fr.git',
+                    credentialsId: 'github-token'
             }
         }
 
@@ -25,10 +26,7 @@ pipeline {
         stage('Dockerize App') {
             steps {
                 script {
-                    sh """
-                    echo "Building Docker Image..."
-                    docker build -t $IMAGE_NAME:$IMAGE_TAG .
-                    """
+                    sh "docker build -t ${DOCKER_IMAGE}:latest ."
                 }
             }
         }
@@ -36,12 +34,9 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push $IMAGE_NAME:$IMAGE_TAG
-                        docker logout
-                        """
+                    withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_HUB_TOKEN')]) {
+                        sh "echo $DOCKER_HUB_TOKEN | docker login -u yourdockerhubusername --password-stdin"
+                        sh "docker push ${DOCKER_IMAGE}:latest"
                     }
                 }
             }
@@ -49,11 +44,8 @@ pipeline {
     }
 
     post {
-        always {
-            cleanWs()
-        }
         success {
-            echo '🎉 Build and Push Successful!'
+            echo '✅ Build and Push Successful!'
         }
         failure {
             echo '❌ Build or Push Failed!'
