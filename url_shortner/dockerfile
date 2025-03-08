@@ -1,20 +1,23 @@
-# Use the latest LTS version of Node.js
-FROM node:18-alpine
- 
+# Use Node.js version 22.13.0
+FROM node:22.13.0-alpine
+
 # Set the working directory inside the container
 WORKDIR /app
- 
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
- 
+
+# Remove node_modules and package-lock.json in case they are corrupted
+RUN rm -rf node_modules package-lock.json
+
 # Install dependencies
 RUN npm install
- 
+
 # Copy the rest of your application files
 COPY . .
- 
+
 # Expose the port your app runs on
-EXPOSE 3000
- 
-# Define the command to run your app
-CMD ["npm", "start"]
+EXPOSE 5173
+
+# Start Vite development server
+CMD ["npm", "run", "dev"]

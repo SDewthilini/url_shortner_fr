@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import React from "react";
 import UsedDevicesChart from "./UsedDevicesChart";
-import Map from "./map";
+import Map from "./Map";
 
 
 

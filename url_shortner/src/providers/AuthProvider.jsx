@@ -9,42 +9,42 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Fetch the user from the backend
-    const checkSession = async () => {
-      try {
-        const response = await axiosServices.get("/user/session");
-        if (response.data.session) {
-          setUser({ id: response.data });
-        } else {
-          // Redirect to Spring Boot's default login page if no session
-          window.location.href = 'http://localhost:8080/login';
-        }
-      } catch (error) {
-        console.error("Session check failed:", error);
-        // Also redirect on error
-        window.location.href = 'http://localhost:8080/login';
-      }
-      setLoading(false);
-    };
-    checkSession();
+    // const checkSession = async () => {
+    //   try {
+    //     const response = await axiosServices.get("/user/session");
+    //     if (response.data.session) {
+    //       setUser({ id: response.data });
+    //     } else {
+    //       // Redirect to Spring Boot's default login page if no session
+    //       window.location.href = 'http://localhost:8080/login';
+    //     }
+    //   } catch (error) {
+    //     console.error("Session check failed:", error);
+    //     // Also redirect on error
+    //     window.location.href = 'http://localhost:8080/login';
+    //   }
+    //   setLoading(false);
+    // };
+    // checkSession();
   }, []);
 
   // Login function
   const login = async (email, password) => {
-    try {
-      const response = await axiosServices.get("/login");
+    // try {
+    //   const response = await axiosServices.get("/login");
 
-      if (!response.ok) throw new Error("Login failed");
-    } catch (error) {
-      console.error("Login Error:", error);
-    }
+    //   if (!response.ok) throw new Error("Login failed");
+    // } catch (error) {
+    //   console.error("Login Error:", error);
+    // }
   };
 
   // Logout function
   const logout = async () => {
-    try {
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
+    // try {
+    // } catch (error) {
+    //   console.error("Logout Error:", error);
+    // }
   };
 
   return (
