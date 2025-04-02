@@ -40,8 +40,8 @@ resource "aws_security_group" "my_security_group" {
 # Create the EC2 instance
 resource "aws_instance" "my_ec2_instance" {
   ami           = "ami-072e42fd77921edac"  # Replace with an appropriate AMI for your region
-  instance_type = "t3.micro"               # Change based on your needs
-  key_name      = "isuru-key"          # Replace with your SSH key name
+  instance_type = "t2.micro"               # Change based on your needs
+  key_name      = "isuru"          # Replace with your SSH key name
 
   security_groups = [aws_security_group.my_security_group.name]  # Reference the security group
 
