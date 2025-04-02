@@ -21,7 +21,7 @@ const Signin = () => {
               Sign In with Google
             </Button>
             <Button variant="contained" color="primary" startIcon={<Facebook />} fullWidth>
-              Sign In with Facebook
+              Sign In with Face
             </Button>
           </Box>
           <Divider sx={{ my: 2 }}>or</Divider>
