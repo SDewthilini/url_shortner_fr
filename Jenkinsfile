@@ -28,24 +28,25 @@ pipeline {
 
 
 
-        stage('Build & Push Frontend Docker Image') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh '''
-                        pwd 
-                        ls 
-                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        # Build the React frontend Docker image with no-cache to force rebuild
-                        docker build --no-cache -t $REACT_APP_IMAGE -f dockerfile 
-                        # Push the Docker image to DockerHub
-                        docker push $REACT_APP_IMAGE
-                        docker logout
-                        '''
-                    }
-                }
+       stage('Build & Push Frontend Docker Image') {
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                sh '''
+                pwd 
+                ls 
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                # Build the React frontend Docker image with no-cache to force rebuild
+                docker build --no-cache -t $REACT_APP_IMAGE -f dockerfile .
+                # Push the Docker image to DockerHub
+                docker push $REACT_APP_IMAGE
+                docker logout
+                '''
             }
         }
+    }
+}
+
 
        
 
