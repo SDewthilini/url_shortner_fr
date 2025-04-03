@@ -106,21 +106,28 @@ stage('Deploy Frontend Application') {
                 docker ps -q --filter "name=react-frontend-is" | grep -q . && docker stop react-frontend-is || true
                 docker ps -aq --filter "name=react-frontend-is" | grep -q . && docker rm -f react-frontend-is || true
 
-                # Ensure the port is not in use
-                sudo lsof -ti :3000 | xargs -r sudo kill -9 || true
+                # Ensure the network exists
+                docker network ls | grep -q "homemate-network" || docker network create homemate-network
 
-                # Run the container within the existing network (no network creation)
-                docker run --pull=always -d --restart always --name react-frontend-is --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
+                # Ensure the port is not in use
+                sudo lsof -ti :5173 | xargs -r sudo kill -9 || true
+
+                # Run the container within the existing network
+                docker run --pull=always -d --restart always --name react-frontend-is --network homemate-network -p 5173:5173 $REACT_APP_IMAGE || {
+                    echo "❌ ERROR: Failed to start container"; 
+                    exit 1;
+                }
 
                 # Confirm the container is running
                 docker ps --filter "name=react-frontend-is"
 
-                echo "Frontend deployment complete."
+                echo "✅ Frontend deployment complete."
                 '''
             }
         }
     }
 }
+
 
 
 
