@@ -33,9 +33,11 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh '''
+                        pwd 
+
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         # Build the React frontend Docker image with no-cache to force rebuild
-                        docker build --no-cache -t $REACT_APP_IMAGE -f Dockerfile frontend
+                        docker build --no-cache -t $REACT_APP_IMAGE -f dockerfile frontend
                         # Push the Docker image to DockerHub
                         docker push $REACT_APP_IMAGE
                         docker logout
