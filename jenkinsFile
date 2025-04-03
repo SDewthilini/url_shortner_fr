@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_USER = 'isuru243'
-        IMAGE_NAME = 'isuru243/frontend'
+        DOCKER_HUB_USER = 'parakkrama'
+        IMAGE_NAME = 'parakkrama/frontend'
         CONTAINER_NAME = 'react_frontend'
         SERVER_USER = 'ubuntu'
         SERVER_HOST = ''
 
         AWS_ACCESS_KEY = credentials('aws_access_key')
         AWS_SECRET_KEY = credentials('aws_seacret_key')
-        // SSH_KEY_PATH = '/root/jenkinsKey.pem'
+        SSH_KEY_PATH = '/root/jenkinsKey.pem'
     }
 
     triggers {
@@ -18,9 +18,6 @@ pipeline {
     }
 
     stages {
-
-        
-
         stage('Copy Secret File') {
             steps {
                 script {
@@ -32,55 +29,26 @@ pipeline {
             }
         }
 
-        
-
-        stage('Terraform Init and AWS Login') {
+        stage('Terraform Init') {
             steps {
                 script {
-                    // Use the AWS credential stored in Jenkins.
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: 'AWS_ACCESS_ID', // Replace with your AWS credential ID in Jenkins.
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]]) {
-                        dir('terraform') {
-                            sh '''
-                            # Configure AWS CLI with the bound credentials
-                            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-                            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-                            aws configure set default.region us-east-1  # Change to your preferred region
-
-                            # Now run Terraform init in the terraform directory
-                            terraform init
-                            '''
-                        }
-                    }
+                    sh '''
+                    export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY
+                    export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY
+                    terraform init
+                    '''
                 }
             }
         }
+
         stage('Terraform Apply') {
             steps {
                 script {
-                    
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: 'AWS_ACCESS_ID', // Replace with your AWS credential ID in Jenkins.
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]]) {
-                        dir('terraform') {
-                            sh '''
-                            # Configure AWS CLI with the bound credentials
-                            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-                            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-                            aws configure set default.region us-east-1  # Change to your preferred region
-
-                            # Now run Terraform init in the terraform directory
-                            terraform apply -auto-approve
-                            '''
-                        }
-                    }
+                    sh '''
+                    terraform apply -auto-approve \
+                        -var="AWS_ACCESS_KEY=$AWS_ACCESS_KEY" \
+                        -var="AWS_SECRET_KEY=$AWS_SECRET_KEY"
+                    '''
                 }
             }
         }
@@ -105,7 +73,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/SDewthilini/url_shortner_fr.git'
+                git branch: 'deops_1', url: 'https://github.com/Parakkrama24/devops-project-blog-FrontEnd.git'
             }
         }
 
