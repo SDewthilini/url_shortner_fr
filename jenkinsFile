@@ -62,11 +62,14 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    sh '''
-                    terraform apply -auto-approve \
-                        -var="AWS_ACCESS_KEY=$AWS_ACCESS_KEY" \
-                        -var="AWS_SECRET_KEY=$AWS_SECRET_KEY"
-                    '''
+                    dir('terraform') {
+                        // Run Terraform apply to create the EC2 instance
+                        // The -auto-approve flag is used to skip the interactive approval prompt
+                        // You can also use -var-file to specify a variable file if needed
+                        sh '''
+                        terraform apply -auto-approve
+                        '''
+                    }
                 }
             }
         }
