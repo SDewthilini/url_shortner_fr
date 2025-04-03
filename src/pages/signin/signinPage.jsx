@@ -27,7 +27,7 @@ const Signin = () => {
           <Divider sx={{ my: 2 }}>or</Divider>
           <SignInForm />
           <Typography variant="body2" sx={{ marginTop: 2 }}>
-            Don't have an accou? <Button color="primary" onClick={() => navigate("/signup")} sx={{ textTransform: "none" }}>Sign up</Button>
+            Don't have an account? <Button color="primary" onClick={() => navigate("/signup")} sx={{ textTransform: "none" }}>Sign up</Button>
           </Typography>
         </Paper>
       </Slide>
