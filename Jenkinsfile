@@ -98,21 +98,22 @@ stage('Deploy Frontend Application') {
             sshagent([SSH_CREDENTIALS_ID]) {
                 sh '''
                 set -xe  # Enables debugging
-
                 
-
                 # Pull the latest React frontend image
                 docker pull $REACT_APP_IMAGE
 
                 # Stop and remove any running instance of the frontend container
                 docker ps -q --filter "name=react-frontend-is" | grep -q . && docker stop react-frontend-is || true
-                docker ps -aq --filter "name=react-frontend-is" | grep -q . && docker rm react-frontend-is || true
+                docker ps -aq --filter "name=react-frontend-is" | grep -q . && docker rm -f react-frontend-is || true
+
+                # Ensure the port is not in use
+                sudo lsof -ti :3000 | xargs -r sudo kill -9 || true
 
                 # Run the container within the existing network (no network creation)
                 docker run --pull=always -d --restart always --name react-frontend-is --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
 
                 # Confirm the container is running
-                docker ps --filter "name=rreact-frontend-is"
+                docker ps --filter "name=react-frontend-is"
 
                 echo "Frontend deployment complete."
                 '''
@@ -120,6 +121,7 @@ stage('Deploy Frontend Application') {
         }
     }
 }
+
 
 
 
