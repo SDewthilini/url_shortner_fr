@@ -62,13 +62,24 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    dir('terraform') {
-                        // Run Terraform apply to create the EC2 instance
-                        // The -auto-approve flag is used to skip the interactive approval prompt
-                        // You can also use -var-file to specify a variable file if needed
-                        sh '''
-                        terraform apply -auto-approve
-                        '''
+                    
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'AWS_ACCESS_ID', // Replace with your AWS credential ID in Jenkins.
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        dir('terraform') {
+                            sh '''
+                            # Configure AWS CLI with the bound credentials
+                            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                            aws configure set default.region us-east-1  # Change to your preferred region
+
+                            # Now run Terraform init in the terraform directory
+                            terraform apply -auto-approve
+                            '''
+                        }
                     }
                 }
             }
