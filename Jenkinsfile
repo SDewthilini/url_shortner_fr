@@ -50,7 +50,7 @@ pipeline {
 
        
 
-        stage('Deploy Frontend Application') {
+       stage('Deploy Frontend Application') {
     steps {
         script {
             sshagent([SSH_CREDENTIALS_ID]) {
@@ -60,9 +60,6 @@ pipeline {
                 # Ensure Docker is running
                 sudo systemctl is-active --quiet docker || sudo systemctl start docker
 
-                # Ensure the Docker network exists
-                docker network inspect homemate-network >/dev/null 2>&1 || docker network create homemate-network
-
                 # Pull the latest React frontend image
                 docker pull $REACT_APP_IMAGE
 
@@ -70,7 +67,7 @@ pipeline {
                 docker ps -q --filter "name=react-frontend" | grep -q . && docker stop react-frontend || true
                 docker ps -aq --filter "name=react-frontend" | grep -q . && docker rm react-frontend || true
 
-                # Run the container within the same network
+                # Run the container within the existing network (no network creation)
                 docker run --pull=always -d --restart always --name react-frontend --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
 
                 # Confirm the container is running
@@ -82,6 +79,7 @@ pipeline {
         }
     }
 }
+
 
 
     }
