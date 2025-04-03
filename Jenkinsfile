@@ -101,14 +101,7 @@ stage('Deploy Frontend Application') {
     }
 
     post {
-        always {
-            junit 'The-Home-Services-Booking-System/target/surefire-reports/TEST-*.xml'
-            plot csvFileName: 'test-duration.csv',
-                title: 'Test Execution Time',
-                group: 'Test Metrics',
-                style: 'line'
-            cleanWs()
-        }
+       
 
         success {
             emailext(
@@ -116,18 +109,17 @@ stage('Deploy Frontend Application') {
                 subject: "✅ SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' Completed Successfully",
                 body: """
                 <html>
-                    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333;">
-                        <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                            <h2 style="color: green;">🎉 Build Successful! 🎉</h2>
-                            <p style="font-size: 16px;">The job <b>${env.JOB_NAME}</b> build <b>#${env.BUILD_NUMBER}</b> has completed successfully.</p>
+    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: green;">🎉 Build Successful! 🎉</h2>
+            <p style="font-size: 16px;">The job <b>${env.JOB_NAME}</b> build <b>#${env.BUILD_NUMBER}</b> has completed successfully.</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="font-size: 14px; color: #777;">Thank you for using our CI/CD pipeline.</p>
+            </div>
+        </div>
+    </body>
+</html>
 
-
-                            <div style="text-align: center; margin-top: 30px;">
-                                <p style="font-size: 14px; color: #777;">Thank you for using our CI/CD pipeline. If you have any questions, feel free to reach out.</p>
-                            </div>
-                        </div>
-                    </body>
-                </html>
                 """,
                 mimeType: 'text/html',
                 replyTo: 'ismadusanke@gmail.com',
@@ -140,19 +132,18 @@ stage('Deploy Frontend Application') {
                 to: 'ismadusanke@gmail.com',
                 subject: "❌ FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed",
                 body: """
-                <html>
-                    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333;">
-                        <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                            <h2 style="color: red;">⚠️ Build Failed! ⚠️</h2>
-                            <p style="font-size: 16px;">The job <b>${env.JOB_NAME}</b> build <b>#${env.BUILD_NUMBER}</b> has failed.</p>
+              <html>
+    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: red;">⚠️ Build Failed! ⚠️</h2>
+            <p style="font-size: 16px;">The job <b>${env.JOB_NAME}</b> build <b>#${env.BUILD_NUMBER}</b> has failed.</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="font-size: 14px; color: #777;">We are here to assist you with the issue.</p>
+            </div>
+        </div>
+    </body>
+</html>
 
-
-                            <div style="text-align: center; margin-top: 30px;">
-                                <p style="font-size: 14px; color: #777;">Thank you for using our CI/CD pipeline. We are here to assist you.</p>
-                            </div>
-                        </div>
-                    </body>
-                </html>
                 """,
                 mimeType: 'text/html',
                 replyTo: 'ismadusanke@gmail.com',
