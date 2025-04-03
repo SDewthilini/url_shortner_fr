@@ -50,7 +50,23 @@ pipeline {
 
        
 
-       stage('Deploy Frontend Application') {
+    stage('Login to Server') {
+    steps {
+        script {
+            sshagent([SSH_CREDENTIALS_ID]) {
+                sh '''
+                # Log in to the server (you can modify this based on your login method)
+                echo "Logging in to the server..."
+
+                # Optionally, you can check if the connection is successful by running a simple command
+                ssh -o StrictHostKeyChecking=no user@your_server_ip "echo 'Logged in successfully!'"
+                '''
+            }
+        }
+    }
+}
+
+stage('Deploy Frontend Application') {
     steps {
         script {
             sshagent([SSH_CREDENTIALS_ID]) {
@@ -79,6 +95,7 @@ pipeline {
         }
     }
 }
+
 
 
 
