@@ -4,8 +4,8 @@ pipeline {
     environment {
      
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
-        // SSH_CREDENTIALS_ID = "homemate-dev-server"
-        // SSH_TARGET = "ubuntu@16.170.174.241"
+        SSH_CREDENTIALS_ID = "IS-EC2"
+        SSH_TARGET = "ubuntu@34.238.126.241"
         REACT_APP_IMAGE = "chamaravishwajith644/react-frontend-is:latest"
 
     }
