@@ -59,7 +59,7 @@ pipeline {
                 echo "Logging in to the server..."
 
                 # Optionally, you can check if the connection is successful by running a simple command
-                ssh -o StrictHostKeyChecking=no user@your_server_ip "echo 'Logged in successfully!'"
+                ssh -o StrictHostKeyChecking=no ubuntu@34.238.126.241 "echo 'Logged in successfully!'"
                 '''
             }
         }
