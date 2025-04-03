@@ -1,20 +1,15 @@
-# Base image for Node.js
-FROM node:20-alpine AS build
+FROM node:20.16
 
-# Set working directory
-WORKDIR /app
 
-# Copy project files
+WORKDIR /usr/src/app
+
+COPY ./package.json .
+COPY ./package-lock.json .
+
+RUN npm install
+
 COPY . .
 
-# Install dependencies and build
-RUN npm install && npm run build
-
-# Serve the app using Nginx
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port 80
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
