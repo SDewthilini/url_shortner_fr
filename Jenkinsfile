@@ -22,7 +22,7 @@ pipeline {
         }
 
 
-
+     
 
 
 
@@ -47,7 +47,28 @@ pipeline {
     }
 }
 
+ stage('Configure Server with Ansible') {
+            steps {
+                script {
+                    sshagent([SSH_CREDENTIALS_ID]) {
+                        sh '''
+                        pwd
+                        ls
+                        cd Ansible
+                        ls
 
+                        # Copy both files to the remote server
+                        scp docker-master-setup.yaml $SSH_TARGET:/tmp/docker-master-setup.yaml
+                 
+
+                        # Execute both playbooks on the server
+                        ssh -o StrictHostKeyChecking=no $SSH_TARGET "ansible-playbook /tmp/docker-master-setup.yaml --connection=local"
+                    
+                        '''
+                    }
+                }
+            }
+        }
        
 
    stage('Login to Server') {
@@ -71,34 +92,34 @@ pipeline {
 }
 
 
-// stage('Deploy Frontend Application') {
-//     steps {
-//         script {
-//             sshagent([SSH_CREDENTIALS_ID]) {
-//                 sh '''
-//                 set -xe  # Enables debugging
+stage('Deploy Frontend Application') {
+    steps {
+        script {
+            sshagent([SSH_CREDENTIALS_ID]) {
+                sh '''
+                set -xe  # Enables debugging
 
                 
 
-//                 # Pull the latest React frontend image
-//                 docker pull $REACT_APP_IMAGE
+                # Pull the latest React frontend image
+                docker pull $REACT_APP_IMAGE
 
-//                 # Stop and remove any running instance of the frontend container
-//                 docker ps -q --filter "name=react-frontend" | grep -q . && docker stop react-frontend || true
-//                 docker ps -aq --filter "name=react-frontend" | grep -q . && docker rm react-frontend || true
+                # Stop and remove any running instance of the frontend container
+                docker ps -q --filter "name=react-frontend-is" | grep -q . && docker stop react-frontend-is || true
+                docker ps -aq --filter "name=react-frontend-is" | grep -q . && docker rm react-frontend-is || true
 
-//                 # Run the container within the existing network (no network creation)
-//                 docker run --pull=always -d --restart always --name react-frontend --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
+                # Run the container within the existing network (no network creation)
+                docker run --pull=always -d --restart always --name react-frontend-is --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
 
-//                 # Confirm the container is running
-//                 docker ps --filter "name=react-frontend"
+                # Confirm the container is running
+                docker ps --filter "name=rreact-frontend-is"
 
-//                 echo "Frontend deployment complete."
-//                 '''
-//             }
-//         }
-//     }
-// }
+                echo "Frontend deployment complete."
+                '''
+            }
+        }
+    }
+}
 
 
 
