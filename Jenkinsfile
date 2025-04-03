@@ -73,8 +73,7 @@ stage('Deploy Frontend Application') {
                 sh '''
                 set -xe  # Enables debugging
 
-                # Ensure Docker is running
-                sudo systemctl is-active --quiet docker || sudo systemctl start docker
+                
 
                 # Pull the latest React frontend image
                 docker pull $REACT_APP_IMAGE
