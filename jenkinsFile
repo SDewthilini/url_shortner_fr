@@ -73,7 +73,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'deops_1', url: 'https://github.com/Parakkrama24/devops-project-blog-FrontEnd.git'
+                git branch: 'deops_1', url: 'https://github.com/SDewthilini/url_shortner_fr.git'
             }
         }
 
