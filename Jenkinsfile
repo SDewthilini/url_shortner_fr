@@ -51,32 +51,38 @@ pipeline {
        
 
         stage('Deploy Frontend Application') {
-            steps {
-                script {
-                    sshagent([SSH_CREDENTIALS_ID]) {
-                        sh '''
-                        ssh -T -o StrictHostKeyChecking=no $SSH_TARGET <<EOF
-                        set -xe  # Enables debugging
+    steps {
+        script {
+            sshagent([SSH_CREDENTIALS_ID]) {
+                sh '''
+                set -xe  # Enables debugging
 
-                        # Ensure the Docker network exists
-                        docker network inspect homemate-network >/dev/null 2>&1 || docker network create homemate-network
+                # Ensure Docker is running
+                sudo systemctl is-active --quiet docker || sudo systemctl start docker
 
-                        # Pull the latest React frontend image
-                        docker pull $REACT_APP_IMAGE
+                # Ensure the Docker network exists
+                docker network inspect homemate-network >/dev/null 2>&1 || docker network create homemate-network
 
-                        # Stop and remove any running instance of the frontend
-                        docker ps -q --filter "name=react-frontend" | grep -q . && docker stop react-frontend || true
-                        docker ps -aq --filter "name=react-frontend" | grep -q . && docker rm react-frontend || true
+                # Pull the latest React frontend image
+                docker pull $REACT_APP_IMAGE
 
-                        # Run the container within the same network
-                        docker run --pull=always -d --restart always --name react-frontend --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
+                # Stop and remove any running instance of the frontend container
+                docker ps -q --filter "name=react-frontend" | grep -q . && docker stop react-frontend || true
+                docker ps -aq --filter "name=react-frontend" | grep -q . && docker rm react-frontend || true
 
-                        docker logout
-                        '''
-                    }
-                }
+                # Run the container within the same network
+                docker run --pull=always -d --restart always --name react-frontend --network homemate-network -p 3000:3000 $REACT_APP_IMAGE
+
+                # Confirm the container is running
+                docker ps --filter "name=react-frontend"
+
+                echo "Frontend deployment complete."
+                '''
             }
         }
+    }
+}
+
 
     }
 
