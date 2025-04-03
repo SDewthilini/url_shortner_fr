@@ -63,7 +63,7 @@ pipeline {
 
                 # Run Docker ps command to check running containers
                 ssh -o StrictHostKeyChecking=no ubuntu@34.238.126.241 "docker ps"
-                 docker ps --filter "name=react-frontend"
+                 docker ps 
                 '''
             }
         }
