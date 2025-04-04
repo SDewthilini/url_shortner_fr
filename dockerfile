@@ -11,26 +11,17 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Production stage
-FROM node:18-alpine
+# Production stage - using nginx to serve static files
+FROM nginx:stable-alpine
 
-WORKDIR /app
+# Copy built files from build stage to nginx serve directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy package files and install only production dependencies
-COPY package*.json ./
-RUN npm install --only=production
+# Add custom nginx config if needed
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built files from build stage
-COPY --from=build /app/dist ./dist
-
-# Copy necessary configs if any
-COPY --from=build /app/config ./config
-
-# Expose backend port
+# Expose port 80
 EXPOSE 5173
 
-# Set environment variables
-ENV NODE_ENV=production
-
-# Start the service
-CMD ["node", "dist/server.js"]
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
